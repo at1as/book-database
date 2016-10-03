@@ -83,27 +83,29 @@
           <tr id="table-header">
             <th class="sorttable_alpha">Title</th>
             <th class="sorttable_alpha">Author(s)</th>
+            <th class="sorttable_alpha">Year</th>
             <th>Download As</th>
           </tr>
         </thead>
 
         <tbody>
-        {% for book in books %}
-          {% assign offset = book[0] | split:' - ' | first | size | plus: 3 %}
-          <tr>
-            <td>{{ book[0] | slice: offset, 99 | escape }}</td>
-            <td>{{ book[0] | split:' - ' | first | escape }}</td>
+          {% for book in books %}
+            <tr>
+          <td>{{ book[1]['title'] }}</td>
+          <td>{{ book[1]['authors'] }}
+          <td>{{ book[1]['year'] }}
             <td>
-              {% for format in book[1] %}
-              <span style="margin-left:6px; margin-right:6px">
-                <a href="{{ books_dir }}/{{ book[0] }}.{{ format }}">
-                  {{ format }}
-                </a>
-              </span>
+              {% for format in book[1]['formats'] %}
+                <span style="margin-left:6px; margin-right:6px">
+                  <a href="{{ books_dir }}/{{ book[0] }}.{{ format }}">
+                    {{ format }}
+                  </a>
+                </span>
               {% endfor %}
             </td>
           </tr>
-          {% endfor %}
+        {% endfor %}
+          
           </tbody>
         </table>
       </div>
