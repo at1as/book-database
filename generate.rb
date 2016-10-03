@@ -1,7 +1,7 @@
 require 'liquid'
 
 # Acquire list of books in directory
-saved_books_dir = "/Volumes/5TB-Media/Books/"
+saved_books_dir = "./Books/"
 Dir.chdir(saved_books_dir)
 book_list = Dir.glob('*').reject {|f| File.directory? f }
 
