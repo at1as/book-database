@@ -3,13 +3,15 @@ function search_book_table(tableID) {
   // Get queries from each search field
   var title_query  = document.getElementById('title-search').value.toLowerCase();
   var author_query = document.getElementById('author-search').value.toLowerCase();
+  var year_query   = document.getElementById('year-search').value.toLowerCase();
   var format_query = document.getElementById('format-search').value.toLowerCase();
 
   // Traverse each row and cell. Hide rows whose content fails to match query
   for (i=1; i<tableID.rows.length; i++) {
     var title_cell  = tableID.rows[i].cells[0].innerHTML.toLowerCase();
     var author_cell = tableID.rows[i].cells[1].innerHTML.toLowerCase();
-    var format_cell = tableID.rows[i].cells[2].innerHTML.toLowerCase();
+    var year_cell   = tableID.rows[i].cells[2].innerHTML.toLowerCase();
+    var format_cell = tableID.rows[i].cells[3].innerHTML.toLowerCase();
 
     // Discard row if rating is empty or less than query
     /*
@@ -41,7 +43,10 @@ function search_book_table(tableID) {
     if (title_cell.indexOf(title_query) === -1 && remove_diacritics(title_cell).indexOf(title_query) === -1 && title_query != ''){
         tableID.rows[i].style.display = 'none';
     }
-    else if (!substrings_in_list(author_query, author_cell, 'author') && author_query !== '') {
+    else if (!substrings_in_list(author_query, author_cell, 'author') && !substrings_in_list(author_query, remove_diacritics(author_cell), 'author') && author_query !== '') {
+        tableID.rows[i].style.display = 'none';
+    }
+    else if (year_query !== '' && parseInt(year_cell) !== parseInt(year_query)){
         tableID.rows[i].style.display = 'none';
     }
     else if (format_cell.indexOf(format_query) === -1 && format_query != ''){

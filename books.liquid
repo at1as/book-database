@@ -24,7 +24,13 @@
 
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="./book-list.html">Book List</a></li>
+            <li class="active"><a href="./book-list.html">Book List
+              <span class="badge">
+                <span id="results_num" style="display:none">{{ num_books }}</span>
+                <span id="mv_seperator" style="display:none"> / </span>
+                <span id="total_num">{{ num_books }}</span>
+              </span>
+            </a></li>
             <li><a href="./about.html">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -43,7 +49,7 @@
           <div style="display:flex">
             <input class="form-control" id="title-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
             <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('title-search'); search_book_table(results)"></span>
-            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any word in title begining with your query [ex. 'Dia' returns 'Blood Diamond']" tabindex="-1">
+            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any word in title begining with your query [ex. 'Ring' returns 'The Lord of the Rings']" tabindex="-1">
               <i class="glyphicon glyphicon-info-sign question-filter"></i>
             </a>
           </div>
@@ -56,7 +62,20 @@
           <div style="display:flex">
             <input class="form-control" id="author-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
             <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('author-search'); search_book_table(results)"></span>
-            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any word in title begining with your query [ex. 'Dia' returns 'Blood Diamond']" tabindex="-1">
+            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any author in title begining with your query [ex. 'Dubn' returns 'Levitt & Dubner']" tabindex="-1">
+              <i class="glyphicon glyphicon-info-sign question-filter"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <div class="col-md-3" style="padding-left:0px">
+            <h4>Year:</h4>
+          </div>
+          <div style="display:flex">
+            <input class="form-control" id="year-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
+            <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('year-search'); search_book_table(results)"></span>
+            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any entry that exactly matches the year" tabindex="-1">
               <i class="glyphicon glyphicon-info-sign question-filter"></i>
             </a>
           </div>
@@ -90,10 +109,10 @@
 
         <tbody>
           {% for book in books %}
-            <tr>
-          <td>{{ book[1]['title'] }}</td>
-          <td>{{ book[1]['authors'] }}
-          <td>{{ book[1]['year'] }}
+          <tr>
+            <td>{{ book[1]['title'] }}</td>
+            <td>{{ book[1]['authors'] }}
+            <td>{{ book[1]['year'] }}
             <td>
               {% for format in book[1]['formats'] %}
                 <span style="margin-left:6px; margin-right:6px">
@@ -104,7 +123,7 @@
               {% endfor %}
             </td>
           </tr>
-        {% endfor %}
+          {% endfor %}
           
           </tbody>
         </table>
