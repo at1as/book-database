@@ -31,11 +31,11 @@ end.to_h
 # Generate HTML page
 
 Dir.chdir(__dir__)
-text = File.read('books.liquid')
+text = File.read('_templates/books.liquid')
 @template = Liquid::Template.parse(text)
 output = @template.render('books' => detailed_book_list,
                           'books_dir' => saved_books_dir,
                           'num_books' => detailed_book_list.length)
 
-File.open('book-list.html', 'w') { |file| file.write(output) }
+File.open('_output/book-list.html', 'w') { |file| file.write(output) }
 

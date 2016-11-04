@@ -11,10 +11,16 @@ Interface to search through and filter your book list.
 
 Download the repository here, set the appropriate permissions and launch IMDB-Scrape via:
 ```bash
+# Download Repo
 $ git clone https://github.com/at1as/book-database.git
+
+# Install dependencies
+$ sudo gem install liquid
 
 # Replace "<YOUR-DESIRED-PATH>" with the path to your book directory
 $ gsed -i 's/saved_books_dir = "\/Volumes\/5TB-MEDIA\/Books\/"/saved_books_dir = "<YOUR-DESIRED-PATH>"/g' generate.rb  
+
+# Launch script to output 
 $ ruby generate.py
 ```
 
