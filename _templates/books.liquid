@@ -49,7 +49,7 @@
           <div style="display:flex">
             <input class="form-control" id="title-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
             <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('title-search'); search_book_table(results)"></span>
-            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any word in title begining with your query [ex. 'Ring' returns 'The Lord of the Rings']" tabindex="-1">
+            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any word in title begining with your query [ex. 'and Juliet' returns 'Romeo and Juliet']" tabindex="-1">
               <i class="glyphicon glyphicon-info-sign question-filter"></i>
             </a>
           </div>
@@ -62,7 +62,7 @@
           <div style="display:flex">
             <input class="form-control" id="author-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
             <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('author-search'); search_book_table(results)"></span>
-            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any author in title begining with your query [ex. 'Dubn' returns 'Levitt & Dubner']" tabindex="-1">
+            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for each space-seperated term in authors [ex. 'Dubner Levitt' returns 'Steven D. Levitt & Stephen J. Dubner']" tabindex="-1">
               <i class="glyphicon glyphicon-info-sign question-filter"></i>
             </a>
           </div>
@@ -75,7 +75,7 @@
           <div style="display:flex">
             <input class="form-control" id="year-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
             <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('year-search'); search_book_table(results)"></span>
-            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any entry that exactly matches the year" tabindex="-1">
+            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any entry that starts with the year query [ex. '201' returns all entries for '2010 - 2019']" tabindex="-1">
               <i class="glyphicon glyphicon-info-sign question-filter"></i>
             </a>
           </div>
@@ -86,11 +86,12 @@
             <h4>Format:</h4>
           </div>
           <div style="display:flex">
-            <input class="form-control" id="format-search" type="search" onkeyup="search_book_table(results)" spellcheck="false">
-            <span class="glyphicon glyphicon-remove clear-filter" onclick="clear_filter('format-search'); search_book_table(results)"></span>
-            <a href="#" class="tooltip-info" data-placement="left" data-toggle="tooltip" title="Searches for any word in title begining with your query [ex. 'Dia' returns 'Blood Diamond']" tabindex="-1">
-              <i class="glyphicon glyphicon-info-sign question-filter"></i>
-            </a>
+            <select class="form-control" id="format-search" type="search" onchange="search_book_table(results)" spellcheck="false">
+              <option selected value="">All</option>
+              {% for format in formats %}
+                <option value="{{format}}">{{format}}</option>
+              {% endfor %}
+            </select>
           </div>
         </div>
       </div>
@@ -99,7 +100,7 @@
       <div style="width:100%; margin-top:100px">
       <table id="results" class="table table-striped table-bordered sortable scalable_table" data-sortable>
         <thead>
-          <tr id="table-header">
+          <tr id="table-header" onclick="stripe_table()">
             <th class="sorttable_alpha">Title</th>
             <th class="sorttable_alpha">Author(s)</th>
             <th class="sorttable_alpha">Year</th>

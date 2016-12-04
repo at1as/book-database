@@ -1,56 +1,29 @@
 // Refine Book Table based on current filters
 function search_book_table(tableID) {
   // Get queries from each search field
-  var title_query  = document.getElementById('title-search').value.toLowerCase();
-  var author_query = document.getElementById('author-search').value.toLowerCase();
-  var year_query   = document.getElementById('year-search').value.toLowerCase();
-  var format_query = document.getElementById('format-search').value.toLowerCase();
+  var title_query  = document.getElementById('title-search').value.toLowerCase().trim();
+  var author_query = document.getElementById('author-search').value.toLowerCase().trim();
+  var year_query   = document.getElementById('year-search').value.toLowerCase().trim();
+  var format_query = document.getElementById('format-search').value.toLowerCase().trim();
 
   // Traverse each row and cell. Hide rows whose content fails to match query
-  for (i=1; i<tableID.rows.length; i++) {
-    var title_cell  = tableID.rows[i].cells[0].innerHTML.toLowerCase();
-    var author_cell = tableID.rows[i].cells[1].innerHTML.toLowerCase();
-    var year_cell   = tableID.rows[i].cells[2].innerHTML.toLowerCase();
-    var format_cell = tableID.rows[i].cells[3].innerHTML.toLowerCase();
+  for (var i=1; i<tableID.rows.length; i++) {
+    var title_cell  = tableID.rows[i].cells[0].children[0].innerHTML.toLowerCase().trim();
+    var author_cell = tableID.rows[i].cells[1].children[0].innerHTML.toLowerCase().trim();
+    var year_cell   = tableID.rows[i].cells[2].innerHTML.toLowerCase().trim();
+    var format_cell = tableID.rows[i].cells[3].innerHTML.toLowerCase().trim();
 
-    // Discard row if rating is empty or less than query
-    /*
-    if ((parseFloat(rating_cell) < parseFloat(rating_query)) || (rating_query !== '' && rating_cell === '')) {
+    if (title_query !== '' && title_cell.indexOf(title_query) === -1 && remove_diacritics(title_cell).indexOf(title_query) === -1){
       tableID.rows[i].style.display = 'none';
     }
-    else if ((parseFloat(vote_cell) < parseFloat(vote_query)) || (vote_query !== '' && vote_cell === '')) {
+    else if (author_query !== '' && !substrings_in_list(author_query, author_cell, 'author') && !substrings_in_list(author_query, remove_diacritics(author_cell), 'author')) {
       tableID.rows[i].style.display = 'none';
     }
-    else if (title_cell.indexOf(title_query) === -1 && remove_diacritics(title_cell).indexOf(title_query) === -1 && title_query !== '') {
+    else if (year_query !== '' && year_cell.indexOf(year_query) === -1){
       tableID.rows[i].style.display = 'none';
     }
-    else if (year_min_query !== '' && year_cell !== '' && (parseInt(year_cell) < parseInt(year_min_query))) {
+    else if (format_query !== '' && format_cell.indexOf(format_query) === -1){
       tableID.rows[i].style.display = 'none';
-    }
-    else if (year_max_query !== '' && year_cell !== '' && (parseInt(year_cell) > parseInt(year_max_query))) {
-      tableID.rows[i].style.display = 'none';
-    }
-    else if (!substrings_in_list(genre_query, genre_cell, 'genre') && genre_query !== '') {
-        tableID.rows[i].style.display = 'none';
-    }
-    else if (!substrings_in_list(cast_query, cast_cell) && cast_query !== '') {
-      tableID.rows[i].style.display = 'none';
-    }
-    else if (director_cell.indexOf(director_query) === -1 && remove_diacritics(director_cell).indexOf(director_query) && director_query !== '') {
-      tableID.rows[i].style.display = 'none';
-    }*/
-    //if (!substrings_in_list(title_query, title_cell, 'title') && title_query !== '') {
-    if (title_cell.indexOf(title_query) === -1 && remove_diacritics(title_cell).indexOf(title_query) === -1 && title_query != ''){
-        tableID.rows[i].style.display = 'none';
-    }
-    else if (!substrings_in_list(author_query, author_cell, 'author') && !substrings_in_list(author_query, remove_diacritics(author_cell), 'author') && author_query !== '') {
-        tableID.rows[i].style.display = 'none';
-    }
-    else if (year_query !== '' && parseInt(year_cell) !== parseInt(year_query)){
-        tableID.rows[i].style.display = 'none';
-    }
-    else if (format_cell.indexOf(format_query) === -1 && format_query != ''){
-        tableID.rows[i].style.display = 'none';
     }
     else {
       tableID.rows[i].style.display = '';
@@ -59,7 +32,7 @@ function search_book_table(tableID) {
 
   // Update the filtered counter in the page header
   var count = 0;
-  for (j=1; j<tableID.rows.length; j++) {
+  for (var j=1; j<tableID.rows.length; j++) {
     if (tableID.rows[j].style.display !== 'none') {
       count += 1;
     }
@@ -113,12 +86,12 @@ function substrings_in_list(query, item, filter_type) {
       if (current_query !== '!') { query_match.push(current_query); }
     }
   }
-  
+
   // If any 'match' queries are not present in item list return false
   for(var k=0; k<query_match.length; k++){
     positive_match = false;
 
-    for(l=0; l<item_list.length; l++){
+    for(var l=0; l<item_list.length; l++){
       if (item_list[l].trim().indexOf(query_match[k].trim()) === 0) { positive_match = true; }
     }
     if (!positive_match) { return false; }

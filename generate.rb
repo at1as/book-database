@@ -1,16 +1,19 @@
 require 'liquid'
+require 'byebug'
 
 # Acquire list of books in directory
 saved_books_dir = "/Volumes/5TB-MEDIA/Books/"
 Dir.chdir(saved_books_dir)
 book_list = Dir.glob('*').reject {|f| File.directory? f }
 
-
+byebug
 
 def strip_trailing_year(str)
   # "Author – Title (YYYY)" => "Author - Title""
   (title = /(.*)(\([0-9]{4}\)\Z)/.match(str)) ? title[1].strip : str.strip
 end
+
+all_formats = book_list.map{ |book| book.split('.').last }.uniq
 
 
 detailed_book_list = book_list.group_by { |filename| 
@@ -35,7 +38,8 @@ text = File.read('_templates/books.liquid')
 @template = Liquid::Template.parse(text)
 output = @template.render('books' => detailed_book_list,
                           'books_dir' => saved_books_dir,
-                          'num_books' => detailed_book_list.length)
+                          'num_books' => detailed_book_list.length,
+                          'formats' => all_formats)
 
 File.open('_output/book-list.html', 'w') { |file| file.write(output) }
 
